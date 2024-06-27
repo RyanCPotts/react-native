@@ -1,16 +1,34 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import Touchscreen from './Components/Touchscreen';
+import { loadSounds, playSound, unloadSounds } from './Components/SoundManager';
 
 // Main App Component
 export default function App() {
+  const [currentSound, setCurrentSound] = useState(null);
+
+  useEffect(() => {
+    // Load sounds when the component mounts
+    loadSounds();
+
+    // Cleanup sounds when the component unmounts
+    return () => {
+      unloadSounds();
+    };
+  }, []);
+
+  const handlePadPress = (padId) => {
+    setCurrentSound(padId);
+    playSound(padId); // Play the sound immediately
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Hello, World!</Text>
+      <Touchscreen onPadPress={handlePadPress} />
     </View>
   );
 }
 
-// Define styles
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -18,9 +36,4 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#f0f0f0',
   },
-  text: {
-    fontSize: 20,
-    color: '#333',
-  },
 });
-
