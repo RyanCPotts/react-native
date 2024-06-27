@@ -1,70 +1,72 @@
-import React, { useState } from 'react';
-import { View, StyleSheet, Text } from 'react-native';
-import {
-  GestureHandlerRootView,
-  PanGestureHandler,
-  State,
-  TouchableWithoutFeedback
-} from 'react-native-gesture-handler';
+// import React, { useState } from 'react';
+// import { View, StyleSheet, Text } from 'react-native';
+// import {
+//   GestureHandlerRootView,
+//   PanGestureHandler,
+//   State,
+//   TouchableWithoutFeedback
+// } from 'react-native-gesture-handler';
+// import { playSound } from './SoundManager'; // Import playSound function from SoundManager
 
-const pads = [
-  { id: 'kick', label: 'Kick' },
-  { id: 'snare', label: 'Snare' },
-  { id: 'hihat', label: 'Hi-Hat' },
-  { id: 'crash', label: 'Crash' }
-];
+// const pads = [
+//   { id: 'kick', label: 'Kick' },
+//   { id: 'snare', label: 'Snare' },
+//   { id: 'hihat', label: 'Hi-Hat' },
+//   { id: 'crash', label: 'Crash' }
+// ];
 
-const Touchscreen = ({ onPadPress }) => {
-  const [activePads, setActivePads] = useState([]);
+// const Touchscreen = ({ onPadPress }) => {
+//   const [activePads, setActivePads] = useState([]);
 
-  const handleGestureEvent = (event, padId) => {
-    if (event.nativeEvent.state === State.ACTIVE) {
-      setActivePads((prevPads) => [...prevPads, padId]);
-      onPadPress(padId);
-    } else if (event.nativeEvent.state === State.END) {
-      setActivePads((prevPads) => prevPads.filter((id) => id !== padId));
-    }
-  };
+//   const handleGestureEvent = (event, padId) => {
+//     if (event.nativeEvent.state === State.ACTIVE) {
+//       setActivePads((prevPads) => [...prevPads, padId]);
+//       playSound(padId); // Play sound when pad is touched
+//       if (onPadPress) onPadPress(padId); // Optionally pass the pad id up to a parent component
+//     } else if (event.nativeEvent.state === State.END) {
+//       setActivePads((prevPads) => prevPads.filter((id) => id !== padId));
+//     }
+//   };
 
-  return (
-    <GestureHandlerRootView style={styles.container}>
-      {pads.map((pad) => (
-        <PanGestureHandler
-          key={pad.id}
-          onGestureEvent={(event) => handleGestureEvent(event, pad.id)}
-        >
-          <TouchableWithoutFeedback>
-            <View style={styles.pad}>
-              <Text style={styles.label}>{pad.label}</Text>
-            </View>
-          </TouchableWithoutFeedback>
-        </PanGestureHandler>
-      ))}
-    </GestureHandlerRootView>
-  );
-};
+//   return (
+//     <GestureHandlerRootView style={styles.container}>
+//       {pads.map((pad) => (
+//         <PanGestureHandler
+//           key={pad.id}
+//           onGestureEvent={(event) => handleGestureEvent(event, pad.id)}
+//         >
+//           <TouchableWithoutFeedback>
+//             <View style={styles.pad}>
+//               <Text style={styles.label}>{pad.label}</Text>
+//             </View>
+//           </TouchableWithoutFeedback>
+//         </PanGestureHandler>
+//       ))}
+//     </GestureHandlerRootView>
+//   );
+// };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  pad: {
-    width: 100,
-    height: 100,
-    margin: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#333',
-    borderRadius: 8,
-  },
-  label: {
-    color: '#fff',
-    fontSize: 18,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     flexDirection: 'row',
+//     flexWrap: 'wrap',
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//   },
+//   pad: {
+//     width: 100,
+//     height: 100,
+//     margin: 10,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#333',
+//     borderRadius: 8,
+//   },
+//   label: {
+//     color: '#fff',
+//     fontSize: 18,
+//   },
+// });
 
-export default Touchscreen;
+// export default Touchscreen;

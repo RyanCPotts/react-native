@@ -1,39 +1,47 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import Touchscreen from './Components/Touchscreen';
-import { loadSounds, playSound, unloadSounds } from './Components/SoundManager';
+import React, { useEffect } from 'react';
+import { View, StyleSheet, ScrollView } from 'react-native';
+import { loadSounds, unloadSounds, playSound } from './Components/SoundManager'; // Adjust the import path
+// import Touchscreen from './Components/Touchscreen'; // Adjust the import path
+import Speaker from './Components/Speaker'; // Adjust the import path
 
-// Main App Component
-export default function App() {
-  const [currentSound, setCurrentSound] = useState(null);
-
+const App = () => {
   useEffect(() => {
     // Load sounds when the component mounts
     loadSounds();
 
-    // Cleanup sounds when the component unmounts
+    // Clean up by unloading sounds when the component unmounts
     return () => {
       unloadSounds();
     };
   }, []);
 
   const handlePadPress = (padId) => {
-    setCurrentSound(padId);
-    playSound(padId); // Play the sound immediately
+    // Play sound corresponding to the pad pressed
+    playSound(padId);
   };
 
   return (
     <View style={styles.container}>
-      <Touchscreen onPadPress={handlePadPress} />
+      <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+        {/* <Touchscreen onPadPress={handlePadPress} /> */}
+        <Speaker onPadPress={handlePadPress} />
+      </ScrollView>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f0f0f0',
+  },
+  scrollViewContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 20,
   },
 });
+
+export default App;

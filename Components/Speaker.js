@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { playSound } from './SoundManager'; // Import playSound function from SoundManager
 
 const pads = [
   { id: 'kick', label: 'Kick' },
@@ -8,14 +9,17 @@ const pads = [
   { id: 'crash', label: 'Crash' }
 ];
 
-const Input = ({ onPadPress }) => {
+const Speaker = ({ onPadPress }) => {
   return (
     <View style={styles.container}>
       {pads.map((pad) => (
         <TouchableOpacity
           key={pad.id}
           style={styles.pad}
-          onPress={() => onPadPress(pad.id)}
+          onPress={() => {
+            playSound(pad.id); // Play sound when pad is pressed
+            if (onPadPress) onPadPress(pad.id); // Optionally pass the pad id up to a parent component
+          }}
         >
           <Text style={styles.label}>{pad.label}</Text>
         </TouchableOpacity>
@@ -45,4 +49,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Input;
+export default Speaker;

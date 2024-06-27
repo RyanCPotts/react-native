@@ -2,8 +2,8 @@ import { Audio } from 'expo-av';
 
 const sounds = {
   kick: require('../assets/sounds/CYCdh_AcouKick-06.wav'),
-  snare: require('../assets/sounds/Acoustic Snare-01.wav'),
-  hihat: require('../assets/sounds/Acoustic Hat-01.wav'),
+  snare: require('../assets/sounds/Acoustic-Snare-01.wav'),
+  hihat: require('../assets/sounds/Acoustic-Hat-01.wav'),
   crash: require('../assets/sounds/CYCdh_Crash-03.wav'),
 };
 
