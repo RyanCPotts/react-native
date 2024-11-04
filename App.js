@@ -1,46 +1,25 @@
-// App.js
+import React, { useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
+import { Accelerometer } from 'react-native-sensors';
 
-import React, { useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { loadSounds, unloadSounds } from './Components/SoundManager'; // Adjusted import paths
-import Speaker from './Components/Speaker'; // Adjusted import paths
-import Header from './Components/Header'; // Import the Header component
-import Footer from './Components/Footer'; // Import the Footer component
+const WalkingMode = () => {
+  const [cadence, setCadence] = useState(0);
 
-const App = () => {
   useEffect(() => {
-    loadSounds();
-    return () => {
-      unloadSounds();
-    };
+    const subscription = new Accelerometer({
+      updateInterval: 100,
+    }).subscribe(({ x, y, z }) => {
+      // Calculate and update cadence based on accelerometer data
+    });
+
+    return () => subscription.unsubscribe();
   }, []);
 
-  const handlePadPress = (padId) => {
-    console.log(`Pressed pad: ${padId}`);
-  };
-
   return (
-    <View style={styles.container}>
-      <Header />
-      <ScrollView contentContainerStyle={styles.mainContent}>
-        <Speaker onPadPress={handlePadPress} />
-      </ScrollView>
-      <Footer />
+    <View>
+      <Text>Current Cadence: {cadence} steps/min</Text>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'space-between',
-  },
-  mainContent: {
-    flexGrow: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
-
-export default App;
+export default WalkingMode;

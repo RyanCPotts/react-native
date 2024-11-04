@@ -1,42 +1,18 @@
-import { Audio } from 'expo-av';
-
-// Define your sound files
 const sounds = {
   kick: require('../assets/sounds/CYCdh_AcouKick-06.wav'),
   snare: require('../assets/sounds/Acoustic-Snare-01.wav'),
   hihat: require('../assets/sounds/Acoustic-Hat-01.wav'),
   crash: require('../assets/sounds/CYCdh_Crash-03.wav'),
+  bassDrum: require('../assets/sounds/Q Down Bass Drum.wav'), // New identifier
 };
 
-// Object to keep track of loaded sounds
-const loadedSounds = {};
-
-// Load sounds asynchronously and store multiple instances
-export const loadSounds = async () => {
-  for (const [key, value] of Object.entries(sounds)) {
-    const { sound } = await Audio.Sound.createAsync(value);
-    loadedSounds[key] = {
-      instances: [sound], // Store an initial instance
-    };
-  }
-};
-
-// Play a sound and allow multiple instances to play
+// Modify playSound function to use soundId correctly
 export const playSound = async (soundId) => {
-  const soundData = loadedSounds[soundId];
+  const soundKey = soundId === 'Q Down Bass Drum' ? 'bassDrum' : soundId; // Map to the correct key
+  const soundData = loadedSounds[soundKey];
   if (soundData) {
-    // Create a new instance of the sound to avoid stopping the currently playing instance
-    const { sound } = await Audio.Sound.createAsync(sounds[soundId]);
-    soundData.instances.push(sound); // Store the new instance
+    const { sound } = await Audio.Sound.createAsync(sounds[soundKey]);
+    soundData.instances.push(sound);
     await sound.playAsync();
-  }
-};
-
-// Unload sounds to free resources
-export const unloadSounds = async () => {
-  for (const soundData of Object.values(loadedSounds)) {
-    for (const sound of soundData.instances) {
-      await sound.unloadAsync();
-    }
   }
 };
