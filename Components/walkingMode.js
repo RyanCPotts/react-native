@@ -6,6 +6,7 @@ import { playSound } from './SoundManager';
 const WalkingMode = () => {
   const [cadence, setCadence] = useState(0); // Steps per minute
   const [stepCount, setStepCount] = useState(0);
+  const [lastY, setLastY] = useState(0);
   const [intervalId, setIntervalId] = useState(null);
 
   useEffect(() => {
@@ -25,20 +26,22 @@ const WalkingMode = () => {
     const { y } = data; // Use the y-axis for detecting vertical movement
 
     // Check if the accelerometer data indicates a downward movement
-    if (y < -threshold) {
+    if (y < -threshold && lastY >= -threshold) {
       playSound('Q Down Bass Drum'); // Play bass drum sound
-    } else if (y > threshold) {
+      setStepCount(prev => prev + 1); // Increment step count
+    } else if (y > threshold && lastY <= threshold) {
       playSound('Acoustic-Snare-01'); // Play snare sound
+      setStepCount(prev => prev + 1); // Increment step count
     }
 
-    // Count the steps based on a different condition if needed
-    // Example: if (Math.abs(y) > threshold) { setStepCount(prev => prev + 1); }
+    // Update lastY for next comparison
+    setLastY(y);
   };
 
   useEffect(() => {
-    // Update cadence every minute (or adjust to your requirement)
+    // Update cadence every millisecond
     const cadenceInterval = setInterval(() => {
-      const newCadence = (stepCount * 60) / 1; // Convert to steps per minute
+      const newCadence = (stepCount * 60) / (1 / 1000); // Convert to steps per minute
       setCadence(newCadence);
       setStepCount(0);
     }, 1000); // Update cadence every second for smoother response
