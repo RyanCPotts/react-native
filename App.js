@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /**
  * App.js
  * 
@@ -6,16 +7,17 @@
  * and footer components. It also manages pad press events.
  */
 
+=======
+import React, { useEffect, useState } from 'react';
+import { Text, View } from 'react-native';
+import { Accelerometer } from 'react-native-sensors';
+>>>>>>> 3b8f3e72994658d946ef498eebfa07a0dc4c61ee
 
-import React, { useEffect } from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
-import { loadSounds, unloadSounds } from './Components/SoundManager'; // Adjusted import paths
-import Speaker from './Components/Speaker'; // Adjusted import paths
-import Header from './Components/Header'; // Import the Header component
-import Footer from './Components/Footer'; // Import the Footer component
+const WalkingMode = () => {
+  const [cadence, setCadence] = useState(0);
 
-const App = () => {
   useEffect(() => {
+<<<<<<< HEAD
     // Load sound files when the component mounts
     loadSounds();
      // Cleanup function to unload sounds when the component unmounts
@@ -61,3 +63,22 @@ const styles = StyleSheet.create({
 });
 
 export default App;
+=======
+    const subscription = new Accelerometer({
+      updateInterval: 100,
+    }).subscribe(({ x, y, z }) => {
+      // Calculate and update cadence based on accelerometer data
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  return (
+    <View>
+      <Text>Current Cadence: {cadence} steps/min</Text>
+    </View>
+  );
+};
+
+export default WalkingMode;
+>>>>>>> 3b8f3e72994658d946ef498eebfa07a0dc4c61ee
