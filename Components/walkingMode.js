@@ -1,55 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import { playSound } from './SoundManager';
 
 const WalkingMode = () => {
-  const [cadence, setCadence] = useState(0); // Steps per minute
+  const [cadence, setCadence] = useState(0);
   const [stepCount, setStepCount] = useState(0);
   const [lastY, setLastY] = useState(0);
-  const [intervalId, setIntervalId] = useState(null);
+  const cadenceInterval = useRef(null);
 
   useEffect(() => {
-    const subscription = Accelerometer.addListener((data) => {
-      handleAccelerometerData(data);
-    });
+    const subscription = Accelerometer.addListener(handleAccelerometerData);
 
-    // Cleanup function to stop the accelerometer and clear interval
     return () => {
       subscription.remove();
-      clearInterval(intervalId);
+      clearInterval(cadenceInterval.current);
     };
-  }, [intervalId]);
+  }, []);
 
-  const handleAccelerometerData = (data) => {
-    const threshold = 1.5; // Adjust this threshold based on testing
-    const { y } = data; // Use the y-axis for detecting vertical movement
+  const handleAccelerometerData = ({ y }) => {
+    const threshold = 1.5;
 
-    // Check if the accelerometer data indicates a downward movement
     if (y < -threshold && lastY >= -threshold) {
-      playSound('Q Down Bass Drum'); // Play bass drum sound
-      setStepCount(prev => prev + 1); // Increment step count
+      playSound('Q Down Bass Drum');
+      setStepCount(prev => prev + 1);
     } else if (y > threshold && lastY <= threshold) {
-      playSound('Acoustic-Snare-01'); // Play snare sound
-      setStepCount(prev => prev + 1); // Increment step count
+      playSound('Acoustic-Snare-01');
+      setStepCount(prev => prev + 1);
     }
 
-    // Update lastY for next comparison
     setLastY(y);
   };
 
   useEffect(() => {
-    // Update cadence every millisecond
-    const cadenceInterval = setInterval(() => {
-      const newCadence = (stepCount * 60) / (1 / 1000); // Convert to steps per minute
-      setCadence(newCadence);
+    cadenceInterval.current = setInterval(() => {
+      setCadence(stepCount * 60);
       setStepCount(0);
-    }, 1000); // Update cadence every second for smoother response
+    }, 1000);
 
-    setIntervalId(cadenceInterval);
-
-    // Cleanup cadence interval on unmount
-    return () => clearInterval(cadenceInterval);
+    return () => clearInterval(cadenceInterval.current);
   }, [stepCount]);
 
   return (
@@ -61,20 +50,9 @@ const WalkingMode = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  cadence: {
-    fontSize: 18,
-    marginTop: 20,
-  },
+  container: { /* styles */ },
+  title: { /* styles */ },
+  cadence: { /* styles */ },
 });
 
 export default WalkingMode;
