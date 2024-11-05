@@ -20,6 +20,8 @@ const WalkingMode = () => {
 
   const handleAccelerometerData = ({ y }) => {
     const threshold = 1.5;
+    console.log("Accelerometer data:", data);
+
 
     if (y < -threshold && lastY >= -threshold) {
       playSound('Q Down Bass Drum');
