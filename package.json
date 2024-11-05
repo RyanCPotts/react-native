@@ -11,22 +11,14 @@
   "dependencies": {
     "@expo/dev-server": "^0.5.5",
     "@react-native-community/cli-server-api": "^13.6.9",
-<<<<<<< HEAD
-    "expo": "^45.0.8",
-=======
     "expo": "^51.0.38",
->>>>>>> 3b8f3e72994658d946ef498eebfa07a0dc4c61ee
-    "expo-av": "^14.0.5",
+    "expo-av": "~14.0.7",
     "react": "18.2.0",
-    "react-native": "^0.74.5",
+    "react-native": "0.74.6",
     "react-native-gesture-handler": "~2.16.1"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
-<<<<<<< HEAD
-    "@expo/cli": "^0.1.7"
-=======
     "@expo/cli": "^0.18.30"
->>>>>>> 3b8f3e72994658d946ef498eebfa07a0dc4c61ee
   }
 }
