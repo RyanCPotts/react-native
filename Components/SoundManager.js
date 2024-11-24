@@ -1,80 +1,41 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Accelerometer } from 'expo-sensors';
-import { playSound } from './SoundManager';
+// SoundManager.js
+import { Audio } from 'expo-av';
 
-const WalkingMode = () => {
-  const [cadence, setCadence] = useState(0); // Steps per minute
-  const [stepCount, setStepCount] = useState(0);
-  const [lastY, setLastY] = useState(0);
-  const [intervalId, setIntervalId] = useState(null);
+// This will hold references to all the active sounds being played
+const activeSounds = [];
 
-  useEffect(() => {
-    const subscription = Accelerometer.addListener((data) => {
-      handleAccelerometerData(data);
-    });
-
-    // Cleanup function to stop the accelerometer and clear interval
-    return () => {
-      subscription.remove();
-      clearInterval(intervalId);
+// This function will play a sound based on its name
+export const playSound = async (motionType) => {
+  try {
+    const soundFiles = {
+      'DOWN': require('./assets/sounds/Q Down Bass Drum.wav'),
+      'UP': require('./assets/sounds/Acoustic-Snare.01.wav'),
+      'PIVOT': require('./assets/sounds/jungle.wav'), // Example for pivot sound
+      // Add more sounds as needed
     };
-  }, [intervalId]);
 
-  const handleAccelerometerData = (data) => {
-    const threshold = 1.5; // Adjust this threshold based on testing
-    const { y } = data; // Use the y-axis for detecting vertical movement
+    if (!soundFiles[motionType]) return;
 
-    // Check if the accelerometer data indicates a downward movement
-    if (y < -threshold && lastY >= -threshold) {
-      playSound('Q Down Bass Drum'); // Play bass drum sound
-      setStepCount(prev => prev + 1); // Increment step count
-    } else if (y > threshold && lastY <= threshold) {
-      playSound('Acoustic-Snare-01'); // Play snare sound
-      setStepCount(prev => prev + 1); // Increment step count
-    }
+    // Create and load sound object
+    const soundObject = new Audio.Sound();
+    await soundObject.loadAsync(soundFiles[motionType]);
+    await soundObject.playAsync();
 
-    // Update lastY for next comparison
-    setLastY(y);
-  };
+    // Track this sound in the active sounds array
+    activeSounds.push(soundObject);
 
-  useEffect(() => {
-    // Update cadence every millisecond
-    const cadenceInterval = setInterval(() => {
-      const newCadence = (stepCount * 60) / (1 / 1000); // Convert to steps per minute
-      setCadence(newCadence);
-      setStepCount(0);
-    }, 1000); // Update cadence every second for smoother response
-
-    setIntervalId(cadenceInterval);
-
-    // Cleanup cadence interval on unmount
-    return () => clearInterval(cadenceInterval);
-  }, [stepCount]);
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Walking Mode</Text>
-      <Text style={styles.cadence}>Cadence: {cadence.toFixed(0)} BPM</Text>
-    </View>
-  );
+    // Clean up when the sound finishes playing
+    soundObject.setOnPlaybackStatusUpdate((status) => {
+      if (!status.isPlaying) {
+        // Remove the sound from active sounds and unload it
+        const index = activeSounds.indexOf(soundObject);
+        if (index !== -1) {
+          activeSounds.splice(index, 1);
+        }
+        soundObject.unloadAsync();
+      }
+    });
+  } catch (error) {
+    console.error('Error loading or playing sound', error);
+  }
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f0f0f0',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-  },
-  cadence: {
-    fontSize: 18,
-    marginTop: 20,
-  },
-});
-
-export default WalkingMode;
