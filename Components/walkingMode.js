@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import { playSound } from './SoundManager';
-import styles from 'styles/WalkingModeStyles.js';
+import walkingModeStyles from './walkingModeStyles';
 
 const WalkingMode = () => {
   const [cadence, setCadence] = useState(0);
@@ -21,8 +21,7 @@ const WalkingMode = () => {
 
   const handleAccelerometerData = ({ y }) => {
     const threshold = 1.5;
-    console.log("Accelerometer data:", data);
-
+    console.log("Accelerometer data (y-axis):", y);
 
     if (y < -threshold && lastY >= -threshold) {
       playSound('Q Down Bass Drum');
@@ -37,7 +36,7 @@ const WalkingMode = () => {
 
   useEffect(() => {
     cadenceInterval.current = setInterval(() => {
-      setCadence(stepCount * 60);
+      setCadence(stepCount * 60); // Convert to steps per minute
       setStepCount(0);
     }, 1000);
 
@@ -45,17 +44,11 @@ const WalkingMode = () => {
   }, [stepCount]);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Walking Mode</Text>
-      <Text style={styles.cadence}>Cadence: {cadence.toFixed(0)} BPM</Text>
+    <View style={walkingModeStyles.container}>
+      <Text style={walkingModeStyles.title}>Walking Mode</Text>
+      <Text style={walkingModeStyles.cadence}>Cadence: {cadence.toFixed(0)} BPM</Text>
     </View>
   );
 };
-
-const styles = StyleSheet.create({
-  container: { /* styles */ },
-  title: { /* styles */ },
-  cadence: { /* styles */ },
-});
 
 export default WalkingMode;

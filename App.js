@@ -1,7 +1,7 @@
 import React from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
-import WalkingMode from './WalkingMode'; // Assuming WalkingMode is in the same directory
-import styles from './styles/AppStyles.js'; //Importing separated styles
+import WalkingMode from './Components/walkingMode.js'; // Assuming WalkingMode is in the same directory
+import styles from './Components/styles.js'; //Importing separated styles
 
 const App = () => {
   return (

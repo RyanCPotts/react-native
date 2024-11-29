@@ -2,7 +2,7 @@
     "expo": {
       "name": "Internal Sound Generation",
       "slug": "internal-sound-generation",
-      "sdkVersion": "49.0.0",  // Adjust according to your SDK version
+      "sdkVersion": "52.0.0",  // Adjust according to your SDK version
       "platforms": ["android"],
       "version": "1.0.0",
       "orientation": "portrait",
