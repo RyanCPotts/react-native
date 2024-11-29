@@ -6,7 +6,7 @@ import styles from './styles/AppStyles.js'; //Importing separated styles
 const App = () => {
   return (
     <View style={styles.container}>
-      {/* Header component */}
+      {/* Header component
       <Header />
 
       {/* WalkingMode as the main content */}
@@ -15,7 +15,7 @@ const App = () => {
       </ScrollView>
 
       {/* Footer component */}
-      <Footer />
+      <Footer /> */
     </View>
   );
 };

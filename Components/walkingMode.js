@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Accelerometer } from 'expo-sensors';
 import { playSound } from './SoundManager';
-import styles from '.styles/WalkingModeStyles.js'
+import styles from 'styles/WalkingModeStyles.js';
 
 const WalkingMode = () => {
   const [cadence, setCadence] = useState(0);

@@ -1,0 +1,23 @@
+{
+    "expo": {
+      "name": "Internal Sound Generation",
+      "slug": "internal-sound-generation",
+      "sdkVersion": "49.0.0",  // Adjust according to your SDK version
+      "platforms": ["android"],
+      "version": "1.0.0",
+      "orientation": "portrait",
+      "updates": {
+        "fallbackToCacheTimeout": 0
+      },
+      "assetBundlePatterns": [
+        "**/*"
+      ],
+      "ios": {
+        "bundleIdentifier": "com.yourname.yourapp"
+      },
+      "android": {
+        "jsEngine": "hermes"  // Enable Hermes for Android
+      }
+    }
+  }
+  
