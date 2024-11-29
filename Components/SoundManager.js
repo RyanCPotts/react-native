@@ -8,9 +8,9 @@ const activeSounds = [];
 export const playSound = async (motionType) => {
   try {
     const soundFiles = {
-      'DOWN': require('./assets/sounds/Q Down Bass Drum.wav'),
-      'UP': require('./assets/sounds/Acoustic-Snare.01.wav'),
-      'PIVOT': require('./assets/sounds/jungle.wav'), // Example for pivot sound
+      'DOWN': require('../assets/sounds/Q-Down-Bass-Drum.wav'),
+      'UP': require('../assets/sounds/Acoustic-Snare-01.wav'),
+      'PIVOT': require('../assets/sounds/jungle.wav'), // Example for pivot sound
       // Add more sounds as needed
     };
 
