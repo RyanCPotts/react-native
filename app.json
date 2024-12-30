@@ -3,7 +3,7 @@
       "name": "Internal Sound Generation",
       "slug": "internal-sound-generation",
       "sdkVersion": "52.0.0",
-      "platforms": ["android"],
+      "platforms": ["android", "ios"],
       "version": "1.0.0",
       "orientation": "portrait",
       "updates": {
