@@ -19,6 +19,8 @@
     "@babel/core": "^7.24.0",
     "@babel/preset-react": "^7.25.9",
     "@react-native-community/cli": "^15.1.2",
-    "expo": "~52.0.20"
+    "@types/react": "~18.3.12",
+    "expo": "~52.0.20",
+    "typescript": "^5.3.3"
   }
 }

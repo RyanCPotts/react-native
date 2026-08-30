@@ -9,7 +9,6 @@ try {
 }
 
 // Export components and styles
-export { default as WalkingMode } from './Components/walkingMode';
 export { default as Footer } from './Components/Footer';
 export { default as Header } from './Components/Header';
 export { default as styles } from './Components/styles';
